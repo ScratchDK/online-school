@@ -1,6 +1,4 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from rest_framework import generics, viewsets
+from rest_framework import generics
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 
