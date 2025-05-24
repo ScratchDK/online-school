@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Шапка (10% высоты) */
+.header {
+    height: 10vh;
+    width: 100%;
+    background: linear-gradient(135deg, DarkRed, OrangeRed, Orange, Yellow);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    transition: top 0.3s;
+}
+
+/* Подвал (10% высоты) */
+footer {
+    height: 5vh;
+    width: 100%;
+    background: linear-gradient(135deg, Black, DarkGreen, ForestGreen, LightGreen);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Навигация (10% высоты) */
+.navbar {
+    height: 5vh;
+    width: 100%;
+    background: linear-gradient(135deg, Black, DarkGreen, ForestGreen, LightGreen);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    position: fixed;
+    top: 10vh;
+    transition: top 0.3s;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Основной контент (80% высоты, 90% ширины по центру) */
+.content {
+    width: 90%;
+    margin: 20vh auto 0;
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Скрытие шапки и навигации при прокрутке вниз */
+body.scrolled .header {
+    top: -10vh;
+}
+
+body.scrolled .navbar {
+    top: -10vh;
+}

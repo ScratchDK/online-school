@@ -1,0 +1,25 @@
+{% extends 'school/base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content-post">
+        {% for post in blog %}
+            <div class="post-card">
+                <div class="post-title">{{ post.title }}</div>
+                {% if post.preview_image %}
+                    <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="img-post">
+                {% else %}
+                    <div class="img-post empty-img"></div>
+                {% endif %}
+                <div class="post-content">
+                    {{ post.content|truncatechars:180 }}
+                </div>
+                <a href="#" class="read-more">Подробнее</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

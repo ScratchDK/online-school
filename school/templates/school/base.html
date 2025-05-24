@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Онлайн-школа</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block style %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <h1>Онлайн школа</h1>
+    </header>
+
+    <nav class="navbar">
+        <a href="#">Главная</a>
+        <a href="#">Контакты</a>
+    </nav>
+
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Мой сайт. Все права защищены.</p>
+    </footer>
+
+<script>
+    let lastScroll = 0;
+    window.addEventListener("scroll", () => {
+        const currentScroll = window.scrollY;
+        if (currentScroll > lastScroll) {
+            document.body.classList.add("scrolled");
+        } else {
+            document.body.classList.remove("scrolled");
+        }
+        lastScroll = currentScroll;
+    });
+</script>
+
+</body>
+</html>
