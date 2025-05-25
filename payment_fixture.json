@@ -1,6 +1,6 @@
 [
     {
-        "model": "school.payment",
+        "model": "users.payment",
         "pk": 1,
         "fields": {
             "user": 1,
@@ -11,7 +11,7 @@
         }
     },
     {
-        "model": "school.payment",
+        "model": "users.payment",
         "pk": 2,
         "fields": {
             "user": 1,

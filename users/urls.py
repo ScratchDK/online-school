@@ -10,4 +10,10 @@ urlpatterns = [
     path("users/create/", views.CustomUserCreateAPIView.as_view(), name="users_create"),
     path("users/update/<str:email>/", views.CustomUserUpdateAPIView.as_view(), name="users_update"),
     path("users/delete/<str:email>/", views.CustomUserDeleteAPIView.as_view(), name="users_delete"),
+
+    path("payment/", views.PaymentListAPIView.as_view(), name="payment"),
+    path("payment/create/", views.PaymentCreateAPIView.as_view(), name="payment_create"),
+    path("payment/<int:pk>/", views.PaymentDetailAPIView.as_view(), name="payment_detail"),
+    path("payment/update/<int:pk>/", views.PaymentUpdateAPIView.as_view(), name="payment_update"),
+    path("payment/delete/<int:pk>/", views.PaymentDeleteAPIView.as_view(), name="payment_delete"),
 ]
