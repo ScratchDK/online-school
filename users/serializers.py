@@ -1,8 +1,16 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, Payment
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = "__all__"
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    payments = PaymentSerializer(many=True, read_only=True)
+
     class Meta:
         model = CustomUser
         fields = [
@@ -17,7 +25,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'confirmation_token',
             'is_active',
             'is_staff',
-            'date_joined'
+            'date_joined',
+            'payments'
         ]
         extra_kwargs = {
             'password': {'write_only': True},  # Пароль не будет отображаться в API

@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from rest_framework import viewsets, generics
 from school.models import Course, Lesson
 from school.serializers import CourseSerializer, LessonSerializer
@@ -10,6 +8,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
 
 
+# Lesson
 # POST
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer

@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "school",
     "users",
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,9 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # LOGOUT_REDIRECT_URL = 'customers:mailing_list'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+}
