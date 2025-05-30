@@ -5,7 +5,7 @@ from school.models import Course, Lesson
 
 
 class CustomUser(AbstractUser):
-    CITIES_CHOICES = [
+    CITY_CHOICES = [
         ("Pyatigorsk", "Пятигорск"),
         ('Moscow', 'Москва'),
         ('Saint Petersburg', 'Санкт-Петербург'),
@@ -15,12 +15,12 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     avatar = models.ImageField(upload_to='users/images/', blank=True, null=True)
-    cities = models.CharField(max_length=255, choices=CITIES_CHOICES, null=True, blank=True, verbose_name="Города")
+    city = models.CharField(max_length=255, choices=CITY_CHOICES, null=True, blank=True, verbose_name="Город")
     # Токен для потверждения почты при регестрации и для восстановления пароля
     confirmation_token = models.CharField(max_length=32, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username', 'password']
 
     def __str__(self):
         return self.email
