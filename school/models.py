@@ -5,6 +5,8 @@ class Course(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название")
     content = models.TextField(verbose_name='Содержание')
     preview_image = models.ImageField(upload_to='images/course/', blank=True, null=True, verbose_name='Изображение')
+    owner = models.ForeignKey(
+        'users.CustomUser', on_delete=models.SET_NULL, null=True, related_name='courses', verbose_name='Владелец')
 
     class Meta:
         verbose_name = 'Курс'
@@ -20,6 +22,8 @@ class Lesson(models.Model):
     content = models.TextField(verbose_name='Содержание')
     preview_image = models.ImageField(upload_to='images/lesson/', blank=True, null=True, verbose_name='Изображение')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons', verbose_name='Курс')
+    owner = models.ForeignKey(
+        'users.CustomUser', on_delete=models.SET_NULL, null=True, related_name='lessons', verbose_name='Владелец')
 
     class Meta:
         verbose_name = 'Урок'
