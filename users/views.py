@@ -4,6 +4,7 @@ from users.permissions import IsOwnerOrAdmin, IsProfileOwner
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from users.serializers import CustomUserSerializer, PaymentSerializer, PublicUserSerializer, PrivateUserSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
+from school.paginators import MyPagination
 
 
 # class CustomUserViewSet(viewsets.ModelViewSet):
@@ -43,6 +44,7 @@ class CustomUserDeleteAPIView(generics.DestroyAPIView):
 # GET
 class CustomUserListAPIView(generics.ListAPIView):
     serializer_class = CustomUserSerializer
+    pagination_class = MyPagination
     queryset = CustomUser.objects.all()
     permission_classes = [IsAdminUser]
 
@@ -84,6 +86,7 @@ class PaymentDeleteAPIView(generics.DestroyAPIView):
 
 class PaymentListAPIView(generics.ListAPIView):
     serializer_class = PaymentSerializer
+    pagination_class = MyPagination
     queryset = Payment.objects.all()
 
     filter_backends = [SearchFilter, OrderingFilter]
