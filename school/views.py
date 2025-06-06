@@ -1,13 +1,19 @@
+from rest_framework.response import Response
 from rest_framework import viewsets, generics
-from school.models import Course, Lesson
+from school.models import Course, Lesson, Subscription
 from school.serializers import CourseSerializer, LessonSerializer
 from school.permissions import IsAdminOrModerator, IsOwner, IsModerator
 from rest_framework.permissions import IsAdminUser
+from school.paginators import MyPagination
+
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    pagination_class = MyPagination
 
     def get_permissions(self):
         if self.action == "create":
@@ -49,6 +55,7 @@ class LessonDeleteAPIView(generics.DestroyAPIView):
 # GET
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
+    pagination_class = MyPagination
     queryset = Lesson.objects.all()
     permission_classes = [IsAdminOrModerator | IsOwner]
 
@@ -58,3 +65,19 @@ class LessonDetailAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAdminOrModerator | IsOwner]
+
+
+class SubscriptionAPIView(APIView):
+    def post(self, *args, **kwargs):
+        user = self.request.user
+        course_id = self.request.data.get("course_id")
+        course_item = get_object_or_404(Course, pk=course_id)
+        subs_item, created = Subscription.objects.get_or_create(user=user, course=course_item)
+
+        if not created:
+            subs_item.delete()
+            message = 'Подписка удалена'
+        else:
+            message = 'Подписка добавлена'
+
+        return Response({"message": message})

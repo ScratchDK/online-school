@@ -15,4 +15,5 @@ urlpatterns = [
     path("lessons/<int:pk>/", views.LessonDetailAPIView.as_view(), name="lessons_detail"),
     path("lessons/update/<int:pk>/", views.LessonUpdateAPIView.as_view(), name="lessons_update"),
     path("lessons/delete/<int:pk>/", views.LessonDeleteAPIView.as_view(), name="lessons_delete"),
+    path("subscription/", views.SubscriptionAPIView.as_view(), name="subscription"),
 ] + router.urls

@@ -21,6 +21,7 @@ class Lesson(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название")
     content = models.TextField(verbose_name='Содержание')
     preview_image = models.ImageField(upload_to='images/lesson/', blank=True, null=True, verbose_name='Изображение')
+    video_url = models.URLField(verbose_name="Ссылка на видео", blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons', verbose_name='Курс')
     owner = models.ForeignKey(
         'users.CustomUser', on_delete=models.SET_NULL, null=True, related_name='lessons', verbose_name='Владелец')
@@ -32,3 +33,21 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Subscription(models.Model):
+    course = models.ForeignKey(
+        'school.Course', on_delete=models.CASCADE, related_name='subscription', verbose_name='Курс')
+    user = models.ForeignKey(
+        'users.CustomUser',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='subscription',
+        verbose_name='Пользователь'
+    )
+    subscribed_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата подписки')
+
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        unique_together = ['user', 'course']
