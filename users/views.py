@@ -1,10 +1,14 @@
 from rest_framework import generics
 from users.models import CustomUser, Payment
+from school.models import Course
 from users.permissions import IsOwnerOrAdmin, IsProfileOwner
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from users.serializers import CustomUserSerializer, PaymentSerializer, PublicUserSerializer, PrivateUserSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
 from school.paginators import MyPagination
+from django.shortcuts import get_object_or_404
+from users.services import create_stripe_product, create_stripe_price, create_checkout_session
+from rest_framework.response import Response
 
 
 # class CustomUserViewSet(viewsets.ModelViewSet):
@@ -70,6 +74,26 @@ class CustomUserDetailAPIView(generics.RetrieveAPIView):
 # Payment
 class PaymentCreateAPIView(generics.CreateAPIView):
     serializer_class = PaymentSerializer
+
+    def post(self, request, *args, **kwargs):
+        course_id = kwargs.get("course_id")
+        course = get_object_or_404(Course, id=course_id)
+        user = request.user
+
+        # Создаем продукт в Stripe если его нет
+        if not course.stripe_product_id:
+            course.stripe_product_id = create_stripe_product(course)
+            course.save()
+
+        # Создаем цену если ее нет или изменилась цена
+        if not course.stripe_price_id:
+            course.stripe_price_id = create_stripe_price(course)
+            course.save()
+
+        # Получаем ссылку на оплату
+        checkout_url = create_checkout_session(course, user)
+
+        return Response({'url': checkout_url})
 
 
 # PATCH
