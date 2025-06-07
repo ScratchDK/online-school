@@ -7,6 +7,9 @@ class Course(models.Model):
     preview_image = models.ImageField(upload_to='images/course/', blank=True, null=True, verbose_name='Изображение')
     owner = models.ForeignKey(
         'users.CustomUser', on_delete=models.SET_NULL, null=True, related_name='courses', verbose_name='Владелец')
+    stripe_product_id = models.CharField(max_length=255, blank=True, null=True)
+    stripe_price_id = models.CharField(max_length=255, blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Цена")
 
     class Meta:
         verbose_name = 'Курс'
