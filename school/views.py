@@ -5,6 +5,7 @@ from school.serializers import CourseSerializer, LessonSerializer
 from school.permissions import IsAdminOrModerator, IsOwner, IsModerator
 from rest_framework.permissions import IsAdminUser
 from school.paginators import MyPagination
+from school.services import send_mailing
 
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
@@ -26,6 +27,21 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        # Получаем курс до обновления
+        course = self.get_object()
+
+        # Получаем всех подписанных пользователей
+        subscribed_users = course.subscription.all().select_related('user')
+        user_emails = [sub.user.email for sub in subscribed_users]
+
+        # Асинхронный вызов
+        send_mailing.delay(user_emails, course.title)
+
+        response = super().update(request, *args, **kwargs)
+
+        return response
 
 
 # Lesson
