@@ -4,6 +4,8 @@ from school.apps import SchoolConfig
 from rest_framework.routers import DefaultRouter
 from users.views import PaymentCreateAPIView
 
+# Пространство имен позволяет уникально идентифицировать URL конкретного приложения,
+# даже если в проекте есть другие приложения с одинаковыми именами URL-путей
 app_name = SchoolConfig.name
 
 router = DefaultRouter()

@@ -6,6 +6,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 
+# Создает документацию API с использованием Swagger/OpenAPI
 schema_view = get_schema_view(
     openapi.Info(
         title="API Documentation",
