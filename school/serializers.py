@@ -4,6 +4,7 @@ from school.validators import validate_url
 
 
 class LessonSerializer(serializers.ModelSerializer):
+    # Проверка что является ссылкой
     video_url = serializers.URLField(validators=[validate_url])
 
     class Meta:
