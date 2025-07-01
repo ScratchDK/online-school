@@ -37,7 +37,7 @@
 2. PostgreSQL (база данных)
 - Проверить подключение:
     ```bash
-    docker-compose exec db psql -U ${DATABASE_USER} -d ${DATABASE_NAME}
+    docker-compose exec db psql -U ваш_пользователь -d ваша_база
   
 3. Redis
 - Проверить работу:
@@ -55,3 +55,37 @@
     ```bash
   docker-compose logs celery_beat
 Должны быть сообщения beat: Starting...
+
+
+## Управление сервисами
+- Остановить все сервисы:
+    ```bash
+    docker-compose down
+
+- Очистить кеш:
+    ```bash
+    docker builder prune -af
+Удаляет все данные сборщика, включая неиспользуемые и используемые кэши.
+
+- Перезапустить конкретный сервис (например, web):
+    ```bash
+    docker-compose restart web
+
+- Просмотр логов всех сервисов:
+    ```bash
+    docker-compose logs -f
+  
+
+## Дополнительные команды
+- Django миграции
+    ```bash
+    docker-compose exec web python manage.py makemigrations
+    docker-compose exec web python manage.py migrate
+  
+- Создание суперпользователя
+    ```bash
+    docker-compose exec web python manage.py createsuperuser
+  
+- Пересбор контейнеров:
+    ```bash
+    docker-compose up -d --build
