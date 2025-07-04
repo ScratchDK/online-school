@@ -5,6 +5,7 @@ from users.models import Payment
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
+# Реализация работы с Stripe, API для работы с платежными системами
 def create_stripe_product(course):
     """Создаем продукт в Stripe"""
     product = stripe.Product.create(
