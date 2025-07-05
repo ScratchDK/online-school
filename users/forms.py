@@ -7,17 +7,23 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = (
-            'username', 'email', 'countries', 'phone_number', 'avatar', 'password1', 'password2'
+            "username",
+            "email",
+            "countries",
+            "phone_number",
+            "avatar",
+            "password1",
+            "password2",
         )
 
         labels = {
-            'username': 'Имя пользователя',
-            'email': 'Электронная почта',
-            'city': 'Город проживания',
-            'phone_number': 'Телефонный номер',
-            'avatar': 'Фото профиля',
-            'password1': 'Пароль',
-            'password2': 'Потверждение пароля',
+            "username": "Имя пользователя",
+            "email": "Электронная почта",
+            "city": "Город проживания",
+            "phone_number": "Телефонный номер",
+            "avatar": "Фото профиля",
+            "password1": "Пароль",
+            "password2": "Потверждение пароля",
         }
 
 
@@ -28,10 +34,10 @@ class CustomAuthenticationForm(AuthenticationForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('countries', 'phone_number', 'avatar')
+        fields = ("countries", "phone_number", "avatar")
 
         labels = {
-            'countries': 'Страна проживания',
-            'phone_number': 'Телефонный номер',
-            'avatar': 'Фото профиля',
+            "countries": "Страна проживания",
+            "phone_number": "Телефонный номер",
+            "avatar": "Фото профиля",
         }

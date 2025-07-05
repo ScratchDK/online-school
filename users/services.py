@@ -8,10 +8,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # Реализация работы с Stripe, API для работы с платежными системами
 def create_stripe_product(course):
     """Создаем продукт в Stripe"""
-    product = stripe.Product.create(
-        name=course.title,
-        description=course.content[:500]
-    )
+    product = stripe.Product.create(name=course.title, description=course.content[:500])
     return product.id
 
 
@@ -28,20 +25,21 @@ def create_stripe_price(course):
 def create_checkout_session(course, user):
     """Создает сессию оплаты"""
     session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price': course.stripe_price_id,
-            'quantity': 1,
-        }],
-        mode='payment',
+        payment_method_types=["card"],
+        line_items=[
+            {
+                "price": course.stripe_price_id,
+                "quantity": 1,
+            }
+        ],
+        mode="payment",
         success_url="http://127.0.0.1:8000/success/",
         cancel_url="http://127.0.0.1:8000/cancel/",
-        metadata={
-            'course_id': course.id,
-            'user_id': user.id
-        }
+        metadata={"course_id": course.id, "user_id": user.id},
     )
 
-    Payment.objects.create(user=user, paid_course=course, amount=course.price, payment_method='transfer')
+    Payment.objects.create(
+        user=user, paid_course=course, amount=course.price, payment_method="transfer"
+    )
 
     return session.url

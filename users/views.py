@@ -3,11 +3,20 @@ from users.models import CustomUser, Payment
 from school.models import Course
 from users.permissions import IsOwnerOrAdmin, IsProfileOwner
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
-from users.serializers import CustomUserSerializer, PaymentSerializer, PublicUserSerializer, PrivateUserSerializer
+from users.serializers import (
+    CustomUserSerializer,
+    PaymentSerializer,
+    PublicUserSerializer,
+    PrivateUserSerializer,
+)
 from rest_framework.filters import SearchFilter, OrderingFilter
 from school.paginators import MyPagination
 from django.shortcuts import get_object_or_404
-from users.services import create_stripe_product, create_stripe_price, create_checkout_session
+from users.services import (
+    create_stripe_product,
+    create_stripe_price,
+    create_checkout_session,
+)
 from rest_framework.response import Response
 
 
@@ -24,7 +33,7 @@ class CustomUserCreateAPIView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
-        password = serializer.validated_data.get('password')
+        password = serializer.validated_data.get("password")
         user = serializer.save(is_active=True)
         user.set_password(password)
         user.save()
@@ -34,14 +43,14 @@ class CustomUserCreateAPIView(generics.CreateAPIView):
 class CustomUserUpdateAPIView(generics.UpdateAPIView):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
-    lookup_field = 'email'
+    lookup_field = "email"
     permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
 
 
 # DELETE
 class CustomUserDeleteAPIView(generics.DestroyAPIView):
     queryset = CustomUser.objects.all()
-    lookup_field = 'email'
+    lookup_field = "email"
     permission_classes = [IsAuthenticated, IsAdminUser]
 
 
@@ -57,7 +66,7 @@ class CustomUserListAPIView(generics.ListAPIView):
 class CustomUserDetailAPIView(generics.RetrieveAPIView):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
-    lookup_field = 'email'
+    lookup_field = "email"
     permission_classes = [IsAuthenticated, IsProfileOwner]
 
     def get_serializer_class(self):
@@ -66,7 +75,7 @@ class CustomUserDetailAPIView(generics.RetrieveAPIView):
         return PublicUserSerializer
 
     def get_permissions(self):
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             return [IsAuthenticated()]
         return [IsAuthenticated(), IsProfileOwner()]
 
@@ -93,7 +102,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         # Получаем ссылку на оплату
         checkout_url = create_checkout_session(course, user)
 
-        return Response({'url': checkout_url})
+        return Response({"url": checkout_url})
 
 
 # PATCH
@@ -114,8 +123,8 @@ class PaymentListAPIView(generics.ListAPIView):
     queryset = Payment.objects.all()
 
     filter_backends = [SearchFilter, OrderingFilter]
-    ordering_fields = ['payment_date']
-    search_fields = ['paid_course', 'paid_lesson', 'payment_method']
+    ordering_fields = ["payment_date"]
+    search_fields = ["paid_course", "paid_lesson", "payment_method"]
 
 
 class PaymentDetailAPIView(generics.RetrieveAPIView):

@@ -15,7 +15,15 @@ def send_mailing(user_emails, course_title):
 
     for email in user_emails:
         try:
-            send_mail(subject, message, from_email, [email], fail_silently=False,)
+            send_mail(
+                subject,
+                message,
+                from_email,
+                [email],
+                fail_silently=False,
+            )
             logger.info(f"Уведомление отправлено на адрес электронной почты: {email}")
         except Exception as e:
-            logger.error(f"Не удалось отправить уведомление на адрес электронной почты: {email}: {e}")
+            logger.error(
+                f"Не удалось отправить уведомление на адрес электронной почты: {email}: {e}"
+            )
