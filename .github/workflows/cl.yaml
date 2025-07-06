@@ -27,6 +27,17 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -42,6 +53,12 @@ jobs:
           poetry install --no-root --no-interaction
 
       - name: Run tests
+        env:
+          DATABASE_NAME: test_db
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_HOST: localhost
+          DATABASE_PORT: 5432
         run: poetry run python manage.py test
 
   build:
