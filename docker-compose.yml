@@ -13,7 +13,7 @@ services:
       db:
         condition: service_healthy
     env_file:
-      - .env
+      - .env.docker
     environment:
       - DATABASE_HOST=db
 
@@ -22,7 +22,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
-      - .env
+      - .env.docker
     ports:
       - "5432:5432"
     healthcheck:
@@ -49,7 +49,7 @@ services:
     volumes:
       - .:/code
     env_file:
-      - .env
+      - .env.docker
     depends_on:
       redis:
         condition: service_healthy
@@ -62,7 +62,7 @@ services:
     volumes:
       - .:/code
     env_file:
-      - .env
+      - .env.docker
     depends_on:
       redis:
         condition: service_healthy
