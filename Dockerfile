@@ -26,3 +26,5 @@ RUN poetry install --only main --no-interaction --no-ansi --no-root
 
 # Копируем остальные файлы проекта
 COPY . .
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
