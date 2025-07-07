@@ -4,12 +4,17 @@ from rest_framework.permissions import IsAdminUser
 
 class IsModerator(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.groups.filter(name="moders").exists()
+        return (
+            request.user.is_authenticated
+            and request.user.groups.filter(name="moders").exists()
+        )
 
 
 class IsAdminOrModerator(permissions.BasePermission):
     def has_permission(self, request, view):
-        return IsAdminUser().has_permission(request, view) or IsModerator().has_permission(request, view)
+        return IsAdminUser().has_permission(
+            request, view
+        ) or IsModerator().has_permission(request, view)
 
 
 class IsOwner(permissions.BasePermission):

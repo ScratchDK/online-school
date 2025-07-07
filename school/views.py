@@ -33,7 +33,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         course = self.get_object()
 
         # Получаем всех подписанных пользователей
-        subscribed_users = course.subscription.all().select_related('user')
+        subscribed_users = course.subscription.all().select_related("user")
         user_emails = [sub.user.email for sub in subscribed_users]
 
         # Асинхронный вызов
@@ -88,12 +88,14 @@ class SubscriptionAPIView(APIView):
         user = self.request.user
         course_id = self.request.data.get("course_id")
         course_item = get_object_or_404(Course, pk=course_id)
-        subs_item, created = Subscription.objects.get_or_create(user=user, course=course_item)
+        subs_item, created = Subscription.objects.get_or_create(
+            user=user, course=course_item
+        )
 
         if not created:
             subs_item.delete()
-            message = 'Подписка удалена'
+            message = "Подписка удалена"
         else:
-            message = 'Подписка добавлена'
+            message = "Подписка добавлена"
 
         return Response({"message": message})

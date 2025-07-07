@@ -7,51 +7,111 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Course',
+            name="Course",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200, verbose_name='Название')),
-                ('content', models.TextField(verbose_name='Содержание')),
-                ('preview_image', models.ImageField(blank=True, null=True, upload_to='images/course/', verbose_name='Изображение')),
-                ('stripe_product_id', models.CharField(blank=True, max_length=255, null=True)),
-                ('stripe_price_id', models.CharField(blank=True, max_length=255, null=True)),
-                ('price', models.DecimalField(decimal_places=2, default=0, max_digits=10, verbose_name='Цена')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=200, verbose_name="Название")),
+                ("content", models.TextField(verbose_name="Содержание")),
+                (
+                    "preview_image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to="images/course/",
+                        verbose_name="Изображение",
+                    ),
+                ),
+                (
+                    "stripe_product_id",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                (
+                    "stripe_price_id",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                (
+                    "price",
+                    models.DecimalField(
+                        decimal_places=2, default=0, max_digits=10, verbose_name="Цена"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Курс',
-                'verbose_name_plural': 'Курсы',
-                'ordering': ['title'],
+                "verbose_name": "Курс",
+                "verbose_name_plural": "Курсы",
+                "ordering": ["title"],
             },
         ),
         migrations.CreateModel(
-            name='Lesson',
+            name="Lesson",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200, verbose_name='Название')),
-                ('content', models.TextField(verbose_name='Содержание')),
-                ('preview_image', models.ImageField(blank=True, null=True, upload_to='images/lesson/', verbose_name='Изображение')),
-                ('video_url', models.URLField(blank=True, null=True, verbose_name='Ссылка на видео')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=200, verbose_name="Название")),
+                ("content", models.TextField(verbose_name="Содержание")),
+                (
+                    "preview_image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to="images/lesson/",
+                        verbose_name="Изображение",
+                    ),
+                ),
+                (
+                    "video_url",
+                    models.URLField(
+                        blank=True, null=True, verbose_name="Ссылка на видео"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Урок',
-                'verbose_name_plural': 'Уроки',
-                'ordering': ['title'],
+                "verbose_name": "Урок",
+                "verbose_name_plural": "Уроки",
+                "ordering": ["title"],
             },
         ),
         migrations.CreateModel(
-            name='Subscription',
+            name="Subscription",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('subscribed_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата подписки')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "subscribed_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата подписки"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Подписка',
-                'verbose_name_plural': 'Подписки',
+                "verbose_name": "Подписка",
+                "verbose_name_plural": "Подписки",
             },
         ),
     ]

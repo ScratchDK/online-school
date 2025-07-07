@@ -8,23 +8,30 @@ services:
       - .:/code
       - static_volume:/code/static
     ports:
-      - "8000:8000"
+      - "80:8000"
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: always
     env_file:
-      - .env
+      - .env.docker
     environment:
       - DATABASE_HOST=db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   db:
     image: postgres:16.0
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
-      - .env
-    ports:
-      - "5432:5432"
+      - .env.docker
+    restart: always  # Добавил restart
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
       interval: 5s
@@ -33,10 +40,9 @@ services:
 
   redis:
     image: redis:alpine
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
+    restart: always  # Добавил restart
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -49,12 +55,13 @@ services:
     volumes:
       - .:/code
     env_file:
-      - .env
+      - .env.docker
     depends_on:
       redis:
         condition: service_healthy
       db:
         condition: service_healthy
+    restart: always  # Добавил restart
 
   celery_beat:
     build: .
@@ -62,12 +69,13 @@ services:
     volumes:
       - .:/code
     env_file:
-      - .env
+      - .env.docker
     depends_on:
       redis:
         condition: service_healthy
       db:
         condition: service_healthy
+    restart: always  # Добавил restart
 
 volumes:
   postgres_data:
